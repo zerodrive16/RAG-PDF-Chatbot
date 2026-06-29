@@ -85,11 +85,13 @@ def chat(query: str, history: list[dict]) -> str:
     return response.choices[0].message.content
 
 
+# Read the PDF and extract the text per page 
 def extract_text_from_pdf(path: str) -> list[str]:
     doc = fitz.open(path)
     return [page.get_text() for page in doc]
 
 
+# Preprocess the text to chunks to embeddings and then store in Vector DB
 def ingest_pdf(path: str) -> int:
     pages = extract_text_from_pdf(path)
     chunks = chunk_text(pages)
